@@ -32,13 +32,7 @@ class BurgerBuilder extends Component {
 	}
 
 	purchaseContinueHandler = () => {
-		const queryParams = [];
-		for(let i in this.props.ings) {
-			queryParams.push(`${encodeURI(i)}=${encodeURI(this.props.ings[i])}`);
-		}
-		queryParams.push(`price=${this.props.price}`)
-		const queryString = queryParams.join('&');
-		this.props.history.push({pathname: '/checkout', search: '?' + queryString});
+		this.props.history.push('/checkout');
 	}
 	componentDidMount() {
 		// axios.get('ingredients.json').then(s => {
