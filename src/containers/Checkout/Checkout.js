@@ -23,7 +23,7 @@ class Checkout extends Component {
         ingredients={this.props.ings}/>
         <Route 
           path={this.props.match.path + '/contact-data'} 
-          component={ContactData}/>)}
+          component={ContactData}
         />
       </div>
     )
