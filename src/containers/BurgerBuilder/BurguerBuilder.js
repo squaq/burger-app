@@ -35,11 +35,11 @@ class BurgerBuilder extends Component {
 		this.props.history.push('/checkout');
 	}
 	componentDidMount() {
-		// axios.get('ingredients.json').then(s => {
-		// 	this.setState({ingredients: s.data})
-		// }).catch(e => {
-		// 	this.setState({error: true})
-		// })
+		axios.get('ingredients.json').then(s => {
+			this.setState({ingredients: s.data})
+		}).catch(e => {
+			this.setState({error: true})
+		})
 	}
 
 	render () {
