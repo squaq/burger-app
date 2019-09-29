@@ -27,7 +27,7 @@ export const purchaseBurger = (orderData) => {
 		dispatch(purchaseBurgerStart());
 		axios.post('/orders.json', orderData).then(s => {
 			console.log('purchaseBurgerStart success', s.data)
-			dispatch(purchaseBurgerSuccess(s.data));
+			dispatch(purchaseBurgerSuccess(s.data.name, orderData));
       // this.props.history.push('/');
 		}).catch( e => {
 			console.log('purchaseBurgerStart success', e.data)
