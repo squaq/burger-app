@@ -4,7 +4,7 @@ import classes from './Order.css'
 const order = props => {
 	let ingredientsSpans = []
 	for(let ing in props.ingredients) {
-		console.log(classes.Ingredient)
+		// console.log(classes.Ingredient)
 		ingredientsSpans.push(
 			<span key={ing} style={{
 				textTransform: 'capitalize',
