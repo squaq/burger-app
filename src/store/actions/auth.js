@@ -25,12 +25,14 @@ export const auth = (email, password) => {
 	return dispatch => {
 		dispatch(authStart());
 		const authData = {
-			email,
-			password,
+			// email,
+			// password,
+			token: 'AAAA3xdwKL4:APA91bGsiPYCHifpGIOXcoR2R8kJrkOSmxPtmYAsTm7dp6muha5dECyi4rntgZmEPPPjGwPPkhk_YkIV3_cuLjfYuxIfInETL5P0xwKfuSegUvw42WTgbGbKBWfqeAXCkvDedpXR4OnU',
 			returnSecureToken: true
 		}
 		axios.post(
 			'https://identitytoolkit.googleapis.com/v1/accounts:signInWithCustomToken?key=AIzaSyCMGW9HpXAy9xRLJUYGes3tTh9WuZlbOSc',
+			// 'https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=AIzaSyCMGW9HpXAy9xRLJUYGes3tTh9WuZlbOSc',
 			authData
 		).then(s => {
 			console.log(s);

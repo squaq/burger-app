@@ -98,8 +98,11 @@ class Auth extends Component {
       });
 		}
 		
-		const form = formElementsArray.map(el => (
-			<Input 
+		const form = formElementsArray.map(el => 
+			{
+				console.log(el)
+			return (
+			<Input
 				key={el.id}
 				elementType={el.config.elementType}
 				elementConfig={el.config.elementConfig}
@@ -109,7 +112,7 @@ class Auth extends Component {
 				touched={el.config.touched}
 				changed={event => this.inputChangedHandler(event, el.id)}
 			/>
-		));
+		)});
 
 		return (
 			<div className={classes.Auth}>
