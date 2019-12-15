@@ -52,25 +52,8 @@ export const auth = (email, password, isSignup) => {
 		axios.post(url, authData)
 		.then( res => {
 			console.log('success', res);
-			dispatch(authSuccess(res.data));
+			dispatch(authSuccess(res.data.idToken, res.data.localId));
 		})
-		.catch(err => {
-			dispatch(authFail(err));
-		});
-		// if(isSignup) url = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithCustomToken?key=AIzaSyCMGW9HpXAy9xRLJUYGes3tTh9WuZlbOSc';
-
-		// axios.post(
-		// 	url,
-		// 	// 'https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=AIzaSyCMGW9HpXAy9xRLJUYGes3tTh9WuZlbOSc',
-		// 	authData
-		// ).then(s => {
-		// 	console.log(s);
-		// 	dispatch(authSuccess(s.data.idToken, s.data.localId));
-		// 	dispatch(checkAuthTimeout(s.data.expiresIn));
-		// })
-		// .catch(e => {
-		// 	console.log(e);
-		// 	dispatch(authFail(e.response.data.error));
-		// });
+		.catch(err => { dispatch(authFail(err.response.data.error)); });
 	}
 }

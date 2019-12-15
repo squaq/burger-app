@@ -75,7 +75,8 @@ class Auth extends Component {
 		return isValid;
 	}
 
-	switchAuthModeHandler = () => {
+	switchAuthModeHandler = (event) => {
+		event.preventDefault();
 		this.setState(prevState => {
 			return { isSignup: !prevState.isSignup };
 		});
@@ -94,13 +95,7 @@ class Auth extends Component {
 	}
 	submitHandler = (event) => {
 		event.preventDefault();
-		console.log('email: ',this.state.controls.email.value)
-		console.log('pass: ',this.state.controls.password.value)
 		this.props.onAuth(this.state.controls.email.value, this.state.controls.password.value, this.state.isSignup)
-		// this.props.onAuth(
-		// 	this.state.controls.email.validation, 
-		// 	this.state.controls.password.validation,
-		// 	this.state.isSignin);
 	}
 
 	render () {
@@ -113,7 +108,7 @@ class Auth extends Component {
 		}
 		
 		let form = formElementsArray.map(el => {
-			console.log(el)
+			// console.log(el)
 			return (
 			<Input
 				key={el.id}
