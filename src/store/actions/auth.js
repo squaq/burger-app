@@ -22,29 +22,55 @@ export const authFail = (error) => {
 	};
 };
 
+export const logout = () => {
+	return { type: actionTypes.AUTH_LOGOUT };
+}
+
+export const checkAuthTimeout = expirationTime => {
+	return dispatch => {
+		setTimeout(() => {
+			dispatch(logout());
+		}, expirationTime * 1000);
+	};
+};
+
 export const auth = (email, password, isSignup) => {
 	return dispatch => {
 		dispatch(authStart());
+		const apiKey = 'AIzaSyCMGW9HpXAy9xRLJUYGes3tTh9WuZlbOSc';
+
+		let url = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${apiKey}`;
+		if(!isSignup) url = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${apiKey}`;
+
+
 		const authData = {
-			// email,
-			// password,
-			token: 'AAAA3xdwKL4:APA91bGsiPYCHifpGIOXcoR2R8kJrkOSmxPtmYAsTm7dp6muha5dECyi4rntgZmEPPPjGwPPkhk_YkIV3_cuLjfYuxIfInETL5P0xwKfuSegUvw42WTgbGbKBWfqeAXCkvDedpXR4OnU',
+			email,
+			password,
 			returnSecureToken: true
 		}
-		let url = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithCustomToken?key=AIzaSyCMGW9HpXAy9xRLJUYGes3tTh9WuZlbOSc';
-		if(isSignup) url = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithCustomToken?key=AIzaSyCMGW9HpXAy9xRLJUYGes3tTh9WuZlbOSc';
 
-		axios.post(
-			url,
-			// 'https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=AIzaSyCMGW9HpXAy9xRLJUYGes3tTh9WuZlbOSc',
-			authData
-		).then(s => {
-			console.log(s);
-			dispatch(authSuccess(s.data.idToken, s.data.localId));
+		axios.post(url, authData)
+		.then( res => {
+			console.log('success', res);
+			dispatch(authSuccess(res.data));
 		})
-		.catch(e => {
-			console.log(e);
-			dispatch(authFail(e.response.data.error));
+		.catch(err => {
+			dispatch(authFail(err));
 		});
+		// if(isSignup) url = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithCustomToken?key=AIzaSyCMGW9HpXAy9xRLJUYGes3tTh9WuZlbOSc';
+
+		// axios.post(
+		// 	url,
+		// 	// 'https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=AIzaSyCMGW9HpXAy9xRLJUYGes3tTh9WuZlbOSc',
+		// 	authData
+		// ).then(s => {
+		// 	console.log(s);
+		// 	dispatch(authSuccess(s.data.idToken, s.data.localId));
+		// 	dispatch(checkAuthTimeout(s.data.expiresIn));
+		// })
+		// .catch(e => {
+		// 	console.log(e);
+		// 	dispatch(authFail(e.response.data.error));
+		// });
 	}
 }

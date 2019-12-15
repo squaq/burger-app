@@ -41,7 +41,7 @@ class Auth extends Component {
 				touched: false
 			}
 		},
-		isSignin: true
+		isSignup: true
 	}
 
 	checkValidity(value, rules) {
@@ -77,7 +77,7 @@ class Auth extends Component {
 
 	switchAuthModeHandler = () => {
 		this.setState(prevState => {
-			return { isSignin: !prevState.isSignin };
+			return { isSignup: !prevState.isSignup };
 		});
 	}
 
@@ -94,10 +94,13 @@ class Auth extends Component {
 	}
 	submitHandler = (event) => {
 		event.preventDefault();
-		this.props.onAuth(
-			this.state.controls.email.validation, 
-			this.state.controls.password.validation,
-			this.state.isSignin);
+		console.log('email: ',this.state.controls.email.value)
+		console.log('pass: ',this.state.controls.password.value)
+		this.props.onAuth(this.state.controls.email.value, this.state.controls.password.value, this.state.isSignup)
+		// this.props.onAuth(
+		// 	this.state.controls.email.validation, 
+		// 	this.state.controls.password.validation,
+		// 	this.state.isSignin);
 	}
 
 	render () {
@@ -126,19 +129,18 @@ class Auth extends Component {
 		if (this.props.loading) form = <Spinner />
 		
 		let errorMessage = null;
-		
-		if (this.props.auth.error) errorMessage = (<p>{this.props.error.message}</p>);
+		if (this.props.error) errorMessage = (<p>{this.props.error.message}</p>);
 
 		return (
 			<div className={classes.Auth}>
 				{errorMessage}
-				<form onSubmit={this.submitHandler}>
-					{form}
-					<Button btnType="Success">SUBMIT</Button>
+				<form>
+				{form}
+					<Button clicked={this.submitHandler} btnType="Success">SUBMIT</Button>
 					<Button
 						btnType="Danger"
 						clicked={this.switchAuthModeHandler}
-					>SWITCH TO {this.state.isSignin ? 'SIGNIN' : 'SIGNUP'}</Button>
+					>SWITCH TO {!this.state.isSignup ? 'SIGNIN' : 'SIGNUP'}</Button>
 				</form>
 			</div>
 		);
@@ -154,7 +156,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
 	return {
-		onAuth: (email, password, isSignin) => dispatch(actions.auth(email, password, isSignin))
+		onAuth: (email, password, isSignup) => dispatch(actions.auth(email, password, isSignup))
 	}
 }
 
