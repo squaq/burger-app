@@ -27,6 +27,7 @@ export const logout = () => {
 }
 
 export const checkAuthTimeout = expirationTime => {
+	console.log('checkAuthTimeout', expirationTime)
 	return dispatch => {
 		setTimeout(() => {
 			dispatch(logout());
@@ -42,7 +43,6 @@ export const auth = (email, password, isSignup) => {
 		let url = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${apiKey}`;
 		if(!isSignup) url = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${apiKey}`;
 
-
 		const authData = {
 			email,
 			password,
@@ -53,6 +53,7 @@ export const auth = (email, password, isSignup) => {
 		.then( res => {
 			console.log('success', res);
 			dispatch(authSuccess(res.data.idToken, res.data.localId));
+			dispatch(checkAuthTimeout(res.data.expiresIn));
 		})
 		.catch(err => { dispatch(authFail(err.response.data.error)); });
 	}
