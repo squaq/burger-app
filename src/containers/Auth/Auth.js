@@ -45,8 +45,6 @@ class Auth extends Component {
 		isSignup: true
 	}
 	componentDidMount() {
-		console.log('did mount', (!this.props.buildingBurger && this.props.authRedirectPath !== '/'))
-		console.log('did mount', this.props.buildingBurger, this.props.authRedirectPath)
 		if(!this.props.buildingBurger && this.props.authRedirectPath !== '/') {
 			this.props.onSetAuthRedirectPath();
 		}
@@ -96,7 +94,8 @@ class Auth extends Component {
 			[controlName]: {
 				value: event.target.value,
 				valid: this.checkValidity(event.target.value, this.state.controls[controlName].validation),
-				touched: true
+				touched: true,
+				elementConfig: this.state.controls[controlName].elementConfig
 			}
 		};
 		this.setState({controls: updatedControls});
@@ -116,7 +115,6 @@ class Auth extends Component {
 		}
 		
 		let form = formElementsArray.map(el => {
-			// console.log(el)
 			return (
 			<Input
 				key={el.id}
@@ -147,7 +145,7 @@ class Auth extends Component {
 					<Button
 						btnType="Danger"
 						clicked={this.switchAuthModeHandler}
-					>SWITCH TO {!this.state.isSignup ? 'SIGNIN' : 'SIGNUP'}</Button>
+					>SWITCH TO {this.state.isSignup ? 'SIGNIN' : 'SIGNUP'}</Button>
 				</form>
 			</div>
 		);
